@@ -1,8 +1,74 @@
-import React from 'react'
-const Blog = ({ blog }) => (
-  <div>
-    <strong>{blog.title}</strong> {blog.author}
-  </div>
-)
+import React, {useState} from 'react'
+import blogService from '../services/blogs'
+
+const Blog = ({ blog, user, removeBlog }) => {
+  const [viewFull, setViewFull] = useState(false)
+  const [likes, setLikes] = useState(blog.likes)
+  const [isOwnedByUser, setIsOwnedByUser] = useState(false)
+
+  const hideWhenViewFull = { display: viewFull ? 'none' : '' }
+  const showWhenViewFull = { display: viewFull ? '' : 'none' }
+
+  let username
+
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5
+  }
+
+  const toggleViewFull = () => {
+    setViewFull(!viewFull)
+  }
+
+  if (blog.user) {
+    username = blog.user.username
+  }
+
+  const removeBlogButton = () => {
+    if (blog.user) {
+      if (blog.user.username === user.username) {
+        return (
+          <div>
+            <button onClick={remove}>Remove</button>
+          </div>
+        )
+      }
+    }
+  }
+
+ const addLike = () => {
+   const newBlog = blog
+   newBlog.likes += 1
+   setLikes(newBlog.likes)
+   blogService.replace(blog.id, blog)
+ }
+
+ const remove = () => {
+   const confirmDelete = window.confirm(`Remove blog ${blog.title}`)
+   if (confirmDelete) {
+     removeBlog(blog.id)
+   }
+ }
+
+  return (
+    <div style={blogStyle}>
+      <strong>{blog.title}</strong> {blog.author}
+      <button onClick={toggleViewFull} style={hideWhenViewFull}>view</button>
+      <button onClick={toggleViewFull} style={showWhenViewFull}>hide</button>
+
+      <div style={showWhenViewFull}>
+        {blog.url}
+        <br/>
+        likes: {likes} <button onClick={addLike}>like</button>
+        <br/>
+        {username}
+        {removeBlogButton()}
+      </div>
+    </div>
+  )
+}
 
 export default Blog
