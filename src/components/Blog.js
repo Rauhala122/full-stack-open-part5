@@ -1,10 +1,9 @@
 import React, {useState} from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, user, removeBlog }) => {
+const Blog = ({ blog, user, removeBlog, like }) => {
   const [viewFull, setViewFull] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
-  const [isOwnedByUser, setIsOwnedByUser] = useState(false)
 
   const hideWhenViewFull = { display: viewFull ? 'none' : '' }
   const showWhenViewFull = { display: viewFull ? '' : 'none' }
@@ -43,7 +42,7 @@ const Blog = ({ blog, user, removeBlog }) => {
    const newBlog = blog
    newBlog.likes += 1
    setLikes(newBlog.likes)
-   blogService.replace(blog.id, blog)
+   like(blog.id, blog)
  }
 
  const remove = () => {
@@ -54,15 +53,15 @@ const Blog = ({ blog, user, removeBlog }) => {
  }
 
   return (
-    <div style={blogStyle}>
-      <strong>{blog.title}</strong> {blog.author}
-      <button onClick={toggleViewFull} style={hideWhenViewFull}>view</button>
+    <div style={blogStyle} className="blog">
+      <strong><span className="title">{blog.title}</span></strong><span className="author"> {blog.author}</span>
+      <button className="viewButton" onClick={toggleViewFull} style={hideWhenViewFull}>view</button>
       <button onClick={toggleViewFull} style={showWhenViewFull}>hide</button>
 
-      <div style={showWhenViewFull}>
-        {blog.url}
+      <div style={showWhenViewFull} className="togglableContent">
+        <span className="url">{blog.url}</span>
         <br/>
-        likes: {likes} <button onClick={addLike}>like</button>
+        likes: <span className="likes">{likes}</span> <button className="likeButton" onClick={addLike}>like</button>
         <br/>
         {username}
         {removeBlogButton()}

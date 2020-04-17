@@ -102,6 +102,10 @@ const App = () => {
     })
   }
 
+  const like = (id, blogObject) => {
+    blogService.replace(id, blogObject)
+  }
+
   const removeBlog = (id) => {
     blogService.deleteBlog(id).then(returnedBlog => {
       setBlogs(blogs.filter(blog => blog.id !== id))
@@ -127,7 +131,7 @@ const App = () => {
         </Togglable>
 
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user} removeBlog={removeBlog}/>
+          <Blog key={blog.id} blog={blog} user={user} removeBlog={removeBlog} like={like}/>
         )}
 
 
