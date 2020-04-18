@@ -21,6 +21,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
+
     )
   }, [])
 
@@ -102,7 +103,7 @@ const App = () => {
     })
   }
 
-  const like = (id, blogObject) => {
+  const likeBlog = (id, blogObject) => {
     blogService.replace(id, blogObject)
   }
 
@@ -131,7 +132,7 @@ const App = () => {
         </Togglable>
 
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user} removeBlog={removeBlog} like={like}/>
+          <Blog key={blog.id} blog={blog} user={user} removeBlog={removeBlog} like={likeBlog}/>
         )}
 
 

@@ -31,7 +31,7 @@ const Blog = ({ blog, user, removeBlog, like }) => {
       if (blog.user.username === user.username) {
         return (
           <div>
-            <button onClick={remove}>Remove</button>
+            <button className="removeButton" onClick={remove}>Remove</button>
           </div>
         )
       }
@@ -39,10 +39,11 @@ const Blog = ({ blog, user, removeBlog, like }) => {
   }
 
  const addLike = () => {
-   const newBlog = blog
-   newBlog.likes += 1
+   const newBlog = {likes: blog.likes += 1}
+   console.log(newBlog)
    setLikes(newBlog.likes)
-   like(blog.id, blog)
+   console.log(blog.id)
+   like(blog.id, newBlog)
  }
 
  const remove = () => {
